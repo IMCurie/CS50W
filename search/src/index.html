@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="../dist/output.css" rel="stylesheet" />
+    <title>Search</title>
+  </head>
+
+  <body class="h-full flex justify-center">
+    <div class="absolute lg:top-1/4 top-20">
+      <div class="">
+        <img class="mx-auto" src="./images/Google.png" width="50%" alt="" />
+      </div>
+      <div class="text-center mt-4">
+        <form action="https://google.com/search">
+          <input
+            class="border-solid border lg:w-full w-5/6 mx-auto block mb-5 h-10 rounded-3xl pl-10 hover:drop-shadow-md focus:border-none, outline-none bg-[url('../src/images/search.svg')] bg-no-repeat bg-[10px] bg-[length:20px_20px] relative"
+            type="text"
+            name="q"
+            placeholder=""
+            autocomplete="off"
+          />
+          <input
+            class="border-solid border-0 rounded-sm bg-stone-100 text-sm font-sans px-5 py-2 hover:shadow-md hover:border-1 hover:border-inherit"
+            type="submit"
+            value="Google Search"
+          />
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
