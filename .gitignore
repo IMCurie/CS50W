@@ -34,3 +34,6 @@ __pycache__/
 
 # Ignore SQLite database files (if using SQLite)
 db.sqlite3
+
+#Ignore generated file
+output.css
