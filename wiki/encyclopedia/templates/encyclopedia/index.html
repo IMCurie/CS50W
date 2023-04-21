@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1>All Pages</h1>
+    <div class="fs-3 mb-1">All Pages</div>
 
-    <ul>
+    <ul class="list-disc">
         {% for entry in entries %}
-            <li>{{ entry }}</li>
+            <li class="fs-5"><a class="link-offset-2 link-underline link-underline-opacity-0 hover:text-sky-700" href="{% url 'encyclopedia:entry' name=entry %}">{{ entry }}</a></li>
         {% endfor %}
     </ul>
 

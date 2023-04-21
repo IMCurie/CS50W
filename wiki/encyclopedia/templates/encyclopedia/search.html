@@ -1,0 +1,16 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search Results
+{% endblock %}
+
+{% block body %}
+    <div class="fs-3 mb-1">Search Results</div>
+
+    <ul class="list-disc">
+        {% for entry in entries %}
+        <li class="fs-5"><a class="link-offset-2 link-underline link-underline-opacity-0 hover:text-sky-700" href="{% url 'encyclopedia:entry' name=entry %}">{{ entry }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

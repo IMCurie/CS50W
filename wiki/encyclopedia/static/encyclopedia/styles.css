@@ -17,8 +17,12 @@ textarea {
     width: 80%;
 }
 
+a{
+    color: rgb(56 189 248);
+}
+
 .main {
-    padding: 10px;
+    padding: 30px;
 }
 
 .search {

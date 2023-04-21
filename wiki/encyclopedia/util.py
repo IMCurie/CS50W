@@ -1,4 +1,5 @@
 import re
+import os
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -30,8 +31,11 @@ def get_entry(title):
     Retrieves an encyclopedia entry by its title. If no such
     entry exists, the function returns None.
     """
-    try:
-        f = default_storage.open(f"entries/{title}.md")
-        return f.read().decode("utf-8")
-    except FileNotFoundError:
-        return None
+    # Iterate through all files in the "entries" directory
+    for filename in default_storage.listdir("entries")[1]:
+        basename, ext = os.path.splitext(filename)
+        if ext == ".md" and basename.lower() == title.lower():
+            f = default_storage.open(f"entries/{filename}")
+            return f.read().decode("utf-8"), basename
+    # If not found, return None
+    return None, None

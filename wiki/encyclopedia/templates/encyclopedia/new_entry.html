@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <form action="{% url 'encyclopedia:new' %}" method="post">
+        {% csrf_token %}
+        <div class="fs-3 mb-3">Create New Entry</div>
+        <div class="form-floating mb-3 w-50">
+            <input type="text" class="form-control" id="floatingInput" placeholder="title" name="title">
+            <label for="floatingInput">Title</label>
+        </div>      
+        <div class="form-floating mb-3 w-75">
+            <textarea class="form-control" placeholder="content" id="floatingTextarea2" style="height: 200px" name="content"></textarea>
+            <label for="floatingTextarea2">Content</label>
+        </div>
+        <button type="submit" class="px-4 py-2 text-sm bg-sky-300 hover:bg-sky-500 rounded-none shadow-sm">Save Changes</button>
+    </form>
+{% endblock %}

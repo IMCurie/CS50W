@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ entry_name }}
+{% endblock %}
+
+{% block body %}
+    {% if entry_content %}
+        {{ entry_content|safe }}
+    {% else %}
+        <div class="alert alert-warning w-50 text-center" role="alert">
+            The entry '{{ entry_name }}' does not exist.
+        </div>
+    {% endif %}
+{% endblock %}
