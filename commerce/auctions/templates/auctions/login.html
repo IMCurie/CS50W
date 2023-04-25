@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="w-25 mb-3 mx-auto">
+        <h2 class="">Login</h2>
+
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'login' %}" method="post" class="mb-3">
+            {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleInputUsername1" class="form-label">Username</label>
+                    <input type="text" autofocus class="form-control hover:" id="exampleInputUsername1" name="username" autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                </div>
+                <button type="submit" class="btn btn-primary" value="Login">Submit</button>
+        </form>
+        Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+    </div>
+    
+
+{% endblock %}
