@@ -3,12 +3,19 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.db.models import Max
 
-from .models import User
+from .models import User, AuctionList
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(
+        request,
+        "auctions/index.html",
+        {
+            "lists": AuctionList.objects.all(),
+        },
+    )
 
 
 def login_view(request):
@@ -64,3 +71,21 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+
+def create(request):
+    return render(request, "auctions/create_list.html")
+
+
+def show(request, id):
+    list = AuctionList.objects.get(pk=id)
+ 
+    return render(
+        request,
+        "auctions/listing.html",
+        {
+            "list": list,
+            "comments": list.item.all(),
+            "max_price": list.auction.aggregate(Max('bid_price'))['bid_price__max'],
+        },
+    )

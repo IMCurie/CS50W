@@ -1,0 +1,37 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+
+    <div class="fs-3 mb-4 w-50 mx-auto">Create Listing</div>
+
+    <div class="w-50 mx-auto">
+        <form action="" method="post">
+            <div class="form-floating mb-3 w-50">
+                <input type="text" class="form-control" id="floatingTitle" placeholder="Title" autofocus required>
+                <label for="floatingTitle">Title</label>
+            </div>
+            <div class="form-floating mb-3 w-50">
+                <input type="text" class="form-control" id="floatingBid" placeholder="Starting Bid" required>
+                <label for="floatingBid">Starting Bid</label>
+            </div>
+            <div class="form-floating mb-3 w-50">
+                <select class="form-select" id="floatingSelect" aria-label="Float Categories">
+                  <option selected>Open this select menu(Optionally)</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="floatingSelect">Categories</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingUrl" placeholder="Image Url">
+                <label for="floatingUrl">Image Url(Optionally)</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea required class="form-control" placeholder="Description" id="floatingTextarea" style="height: 100px"></textarea>
+                <label for="floatingTextarea">Description</label>
+            </div>
+            <button type="submit" class="ms-1 px-4 py-2 text-sm bg-sky-300 hover:bg-sky-500 rounded-none shadow-sm">Save</button>
+        </form>
+    </div>
+{% endblock %}

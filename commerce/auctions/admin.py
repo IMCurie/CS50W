@@ -4,7 +4,7 @@ from .models import User, AuctionList, Bid, Comment
 
 
 class AuctionListAdmin(admin.ModelAdmin):
-    list_display = ("id", "publisher", "title", "category", "start_price", "create_time", "image_url")
+    list_display = ("id", "publisher", "title", "category", "start_price", "create_time")
 
 
 class BidAdmin(admin.ModelAdmin):

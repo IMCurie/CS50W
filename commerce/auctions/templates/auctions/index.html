@@ -1,7 +1,40 @@
-{% extends "auctions/layout.html" %}
+{% extends "auctions/layout.html" %} 
 
 {% block body %}
-    <h2>Active Listings</h2>
+<div class="fs-2 text-center mb-4 fst-italic fw-bold">Active Listings</div>
 
-    TODO
+<div class="w-2/3 mx-auto">
+  {% for list in lists %}
+    <div
+      class="card mb-4 transition transform hover:scale-110 cursor-pointer menu"
+      data-url="{% url 'show' id=list.id %}"
+    >
+      <div class="row g-0">
+        <div class="col-md-5">
+          <img
+            src="{{ list.image_url }}"
+            class="img-fluid rounded-start"
+            alt="..."
+          />
+        </div>
+        <div class="col-md-7">
+          <div class="card-body">
+            <h5 class="card-title">{{ list.title }}</h5>
+            <p class="card-text">{{ list.description }}</p>
+            <p class="card-text">
+              <small class="text-body-secondary"
+                >Created by {{ list.create_time }}</small
+              >
+            </p>
+            {% if list.image_url == "https://picsum.photos/1000/650" %}
+              <p class="card-text text-warning">
+                <strong>PS:</strong>  This user has not provided a photo.(Random Photo)
+              </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}
