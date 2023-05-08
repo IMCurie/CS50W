@@ -21,6 +21,30 @@ function compose_email() {
     document.querySelector('#compose-recipients').value = '';
     document.querySelector('#compose-subject').value = '';
     document.querySelector('#compose-body').value = '';
+
+
+    const compose_recipients = document.getElementById('compose-recipients');
+    const compose_subject = document.getElementById('compose-subject');
+    const compose_body = document.getElementById('compose-body');
+    document.querySelector('[type="submit"]').addEventListener('click', (event) => {
+        // To prevent the default form submission
+        event.preventDefault();
+
+        fetch('emails', {
+            method: 'POST',
+            body: JSON.stringify({
+                recipients: compose_recipients.value,
+                subject: compose_subject.value,
+                body: compose_body.value,
+            })
+          })
+          .then(response => response.json())
+          .then(result => {
+              // Print result
+              console.log(result);
+              load_mailbox('sent');
+          });
+    })
 }
 
 function load_mailbox(mailbox) {
@@ -38,13 +62,12 @@ function load_mailbox(mailbox) {
 }
 
 function show_inbox() {
-
     // Get all emails
     fetch("emails/inbox")
-        .then(response => response.json())
-        .then(emails => {
-            display_main(emails);
-        });
+    .then(response => response.json())
+    .then(emails => {
+        display_main(emails);
+    });
 }
 
 // Show all email lists
@@ -72,7 +95,6 @@ function display_main(emails) {
                     read: true
                 })
             })
-            
         });
 
         const email_sender = document.createElement("div");
