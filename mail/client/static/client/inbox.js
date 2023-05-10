@@ -48,7 +48,6 @@ function compose_email() {
 }
 
 function load_mailbox(mailbox) {
-
     // Show the mailbox and hide other views
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector("#email-list").style.display = 'none';
@@ -56,28 +55,30 @@ function load_mailbox(mailbox) {
 
     // Show the mailbox name
     document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-    if (mailbox === "inbox") {
-        show_inbox();
-    }
-}
-
-function show_inbox() {
+    
     // Get all emails
-    fetch("emails/inbox")
+    fetch(`emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
-        display_main(emails);
+        console.log(emails);
+        display_main(emails, mailbox);
+        
     });
+    
 }
 
 // Show all email lists
-function display_main(emails) {
+function display_main(emails, mailbox) {
     const email_list = document.getElementById("emails-view");
 
     emails.forEach(email => {
+        const email_div_fa = document.createElement("div");
+        email_div_fa.className = "relative w-75 mx-auto";
+
         const email_div = document.createElement("div");
-        email_div.className = "w-75 mx-auto flex flex-row border mb-3 p-3 cursor-pointer"
-        if (email.read) {
+        email_div_fa.appendChild(email_div);
+        email_div.className = "w-5/6 border mb-3 p-3 cursor-pointer"
+        if ( mailbox === "inbox" && email.read) {
             email_div.classList.add("bg-gray-100");
         }
 
@@ -97,22 +98,70 @@ function display_main(emails) {
             })
         });
 
-        const email_sender = document.createElement("div");
-        email_sender.textContent = email.sender;
-        email_sender.className = "basis-1/4 text-lg font-semibold";
-        email_div.appendChild(email_sender);
+        // 创建表格行
+        const table = document.createElement('table');
+        table.className = 'table-auto w-full';
+        const email_row = document.createElement('tr');
+        table.appendChild(email_row);
 
-        const email_subject = document.createElement("div");
-        email_subject.textContent = email.subject;
-        email_subject.className = "basis-1/4";
-        email_div.appendChild(email_subject);
+        // 创建 sender 单元格并靠左对齐
+        const email_sender_cell = document.createElement('td');
+        email_sender_cell.textContent = email.sender;
+        email_sender_cell.className = 'text-left text-lg font-semibold';
+        email_row.appendChild(email_sender_cell);
 
-        const email_time = document.createElement("div");
-        email_time.textContent = email.timestamp;
-        email_time.className = "basis-1/2 text-right";
-        email_div.appendChild(email_time);
+        // 创建 subject 单元格并靠左对齐
+        const email_subject_cell = document.createElement('td');
+        email_subject_cell.textContent = email.subject;
+        email_subject_cell.className = 'text-left';
+        email_row.appendChild(email_subject_cell);
 
-        email_list.appendChild(email_div);
+        // 创建 time 单元格并靠右对齐
+        const email_time_cell = document.createElement('td');
+        email_time_cell.textContent = email.timestamp;
+        email_time_cell.className = 'text-right';
+        email_time_cell.colSpan = 2; // 占两列
+        email_row.appendChild(email_time_cell);
+
+        // 将表格行添加到表格中
+        email_div.appendChild(table);
+
+
+        if (mailbox === "inbox") {
+            const archive_btn = document.createElement("button");
+            archive_btn.className = "absolute right-0 inset-y-0 btn btn-sm btn-outline-primary h-2/3";
+            archive_btn.innerText = "Archive";
+            archive_btn.addEventListener("click", () => {
+                console.log("click");
+                fetch(`emails/${email.id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        archived: true
+                    })
+                })
+                load_mailbox("inbox");
+            })
+
+            email_div_fa.appendChild(archive_btn);
+        } else if (mailbox === "archive") {
+            const archive_btn = document.createElement("button");
+            archive_btn.className = "absolute right-0 inset-y-0 btn btn-sm btn-outline-primary h-2/3";
+            archive_btn.innerText = "Unarchive";
+            archive_btn.addEventListener("click", () => {
+                console.log("click");
+                fetch(`emails/${email.id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        archived: false
+                    })
+                })
+                load_mailbox("inbox");
+            })
+
+            email_div_fa.appendChild(archive_btn);
+        }
+       
+        email_list.appendChild(email_div_fa);
     });
 }
 
@@ -121,9 +170,9 @@ function show_email(email) {
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector("#email-list").style.display = 'block';
 
-    document.getElementById("from").append(email.recipients[0]);
-    document.getElementById("to").append(email.sender);
-    document.getElementById("subject").append(email.subject);
-    document.getElementById("timestamp").append(email.timestamp);
-    document.getElementById("content").append(email.body);
+    document.getElementById("from").innerText = email.sender;
+    document.getElementById("to").innerText = email.recipients;
+    document.getElementById("subject").innerText = email.subject;
+    document.getElementById("timestamp").innerText = email.timestamp;
+    document.getElementById("content").innerText = email.body;
 }
